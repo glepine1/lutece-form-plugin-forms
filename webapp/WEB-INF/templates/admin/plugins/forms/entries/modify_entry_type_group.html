@@ -65,7 +65,8 @@
                             <@checkBox name='only_display_in_back' id='only_display_in_back' value='1' checked=entry.onlyDisplayInBack />
                         </@formGroup>
                         <@formGroup labelFor='used_in_correct_form_response' labelKey='#i18n{forms.createEntry.labelResponsesCorrection}' helpKey='#i18n{forms.createEntry.labelResponsesCorrectionComment}'>
-	                    	<@checkBox name='used_in_correct_form_response' id='used_in_correct_form_response' value='1' checked=entry.usedInCorrectFormResponse />
+	                    	<#assign fieldUsedInCorrectFormResponse=getFieldValueByCode( entry, "used_in_correct_form_response")=='true'>
+                    		<@checkBox name='used_in_correct_form_response' id='used_in_correct_form_response' value='1' checked=fieldUsedInCorrectFormResponse />
 	                    </@formGroup>
 	                    <@formGroup labelFor='used_in_complete_form_response' labelKey='#i18n{forms.createEntry.labelResponsesComplete}' helpKey='#i18n{forms.createEntry.labelResponsesCompleteComment}'>
 							<@checkBox name='used_in_complete_form_response' id='used_in_complete_form_response' value='1' checked=entry.usedInCompleteFormResponse />
