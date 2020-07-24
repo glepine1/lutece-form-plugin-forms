@@ -45,7 +45,8 @@
                             <@checkBox name='is_indexed' id='is_indexed' value='1' checked=entry.indexed />
                         </@formGroup>
                         <@formGroup labelFor='exportable' labelKey='#i18n{forms.createEntry.labelResponsesExportable}' helpKey='#i18n{forms.createEntry.labelResponsesExportableComment}'>
-							<@checkBox name='exportable' id='exportable' value='1' checked=entry.exportable />
+							<#assign fieldExportable=getFieldValueByCode( entry, "exportable")=='true'>
+							<@checkBox name='exportable' id='exportable' value='1' checked=fieldExportable />
 						</@formGroup>
                                                 ${question_modify_template!}
 						<@formGroup>

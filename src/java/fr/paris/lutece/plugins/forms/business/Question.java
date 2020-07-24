@@ -37,6 +37,8 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import fr.paris.lutece.plugins.genericattributes.business.Entry;
+import fr.paris.lutece.plugins.genericattributes.business.Field;
+import fr.paris.lutece.plugins.genericattributes.service.entrytype.IEntryTypeService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 
 import java.io.Serializable;
@@ -320,16 +322,6 @@ public class Question implements Serializable, Cloneable
     public boolean isResponsesIndexed( )
     {
         return _entry.isIndexed( );
-    }
-
-    /**
-     * Return the responses exportable boolean
-     * 
-     * @return true if the responses of this question are exportable, false otherwise
-     */
-    public boolean isResponseExportable( )
-    {
-        return _entry.isExportable( );
     }
 
     /**

@@ -42,6 +42,8 @@ import fr.paris.lutece.plugins.forms.business.FormResponse;
 import fr.paris.lutece.plugins.forms.business.FormResponseStep;
 import fr.paris.lutece.plugins.forms.business.Question;
 import fr.paris.lutece.plugins.forms.util.FormsConstants;
+import fr.paris.lutece.plugins.genericattributes.business.Field;
+import fr.paris.lutece.plugins.genericattributes.service.entrytype.IEntryTypeService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 
 /**
@@ -66,7 +68,7 @@ public class FormResponseCsvExport
         {
             for ( FormQuestionResponse formQuestionResponse : formResponseStep.getQuestions( ) )
             {
-                if ( formQuestionResponse.getQuestion( ).isResponseExportable( ) )
+                if ( isQuestionExportable( formQuestionResponse.getQuestion( ) ) )
                 {
                     _csvHeader.addHeader( formQuestionResponse.getQuestion( ) );
                 }
@@ -98,7 +100,7 @@ public class FormResponseCsvExport
         {
             for ( FormQuestionResponse formQuestionResponse : formResponseStep.getQuestions( ) )
             {
-                if ( formQuestionResponse.getQuestion( ).isResponseExportable( ) )
+                if ( isQuestionExportable( formQuestionResponse.getQuestion( ) ) )
                 {
                     csvDataLine.addData( formQuestionResponse );
                 }
@@ -118,5 +120,11 @@ public class FormResponseCsvExport
         sbCsvData.append( sbRecordContent.toString( ) );
 
         return sbCsvData.toString( );
+    }
+    
+    private boolean isQuestionExportable( Question question )
+    {
+        Field fieldExportable = question.getEntry( ).getFieldByCode( IEntryTypeService.FIELD_EXPORTABLE );
+        return fieldExportable != null && Boolean.valueOf( fieldExportable.getValue( ) );
     }
 }
