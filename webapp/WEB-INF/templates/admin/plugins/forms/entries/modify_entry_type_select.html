@@ -57,7 +57,8 @@
                     		<@checkBox name='used_in_correct_form_response' id='used_in_correct_form_response' value='1' checked=fieldUsedInCorrectFormResponse />
 			            </@formGroup>
 			            <@formGroup labelFor='used_in_complete_form_response' labelKey='#i18n{forms.createEntry.labelResponsesComplete}' helpKey='#i18n{forms.createEntry.labelResponsesCompleteComment}'>
-							<@checkBox name='used_in_complete_form_response' id='used_in_complete_form_response' value='1' checked=entry.usedInCompleteFormResponse />
+							<#assign fieldUsedInCompleteFormResponse=getFieldValueByCode( entry, "used_in_correct_form_response")=='true'>
+							<@checkBox name='used_in_complete_form_response' id='used_in_complete_form_response' value='1' checked=fieldUsedInCompleteFormResponse />
 						</@formGroup>
 						<@formGroup labelFor='exportable' labelKey='#i18n{forms.createEntry.labelResponsesExportable}' helpKey='#i18n{forms.createEntry.labelResponsesExportableComment}'>
 							<#assign fieldExportable=getFieldValueByCode( entry, "exportable")=='true'>
