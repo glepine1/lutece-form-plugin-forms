@@ -62,14 +62,13 @@ public class FormFilterEntryConfiguration extends AbstractFormFilterConfiguratio
     {
         return _formColumn;
     }
-    
-    
+
     @Override
     public IFormFilterQueryPart getIFormFilterQueryPart( )
     {
         return new FormFilterEntryLuceneQueryPart( );
     }
-    
+
     @Override
     public IFormFilterDisplay getIFormFilterDisplay( FormFilter formFilter )
     {

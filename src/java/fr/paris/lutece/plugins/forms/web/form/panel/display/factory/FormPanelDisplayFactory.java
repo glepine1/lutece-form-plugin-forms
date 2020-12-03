@@ -89,7 +89,7 @@ public class FormPanelDisplayFactory
         }
         // Sort the list by the position of each elements
         Collections.sort( listFormPanelDisplay, new FormListPositionComparator( ) );
-        
+
         // Manage the active FormDisplayPanel of the list
         manageActiveFormPanelDisplay( listFormPanelDisplay );
         return listFormPanelDisplay;

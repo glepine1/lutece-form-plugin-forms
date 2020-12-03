@@ -49,18 +49,18 @@ public class FormFilterFormResponseIdConfiguration extends AbstractFormFilterCon
     {
         super( nPosition, strFormFilterLabel, strFormFilterName );
     }
-    
+
     @Override
     public IFormFilterQueryPart getIFormFilterQueryPart( )
     {
         return new FormFilterIdFormResponseLuceneQueryPart( );
     }
-    
+
     @Override
     public IFormFilterDisplay getIFormFilterDisplay( FormFilter formFilter )
     {
         IFormSearchEngine formSearchEngine = SpringContextService.getBean( LuceneFormSearchEngine.BEAN_NAME );
-        
+
         FormFilterDisplaySearchedText formFilterDisplaySearchedText = new FormFilterDisplaySearchedText( formSearchEngine );
         formFilterDisplaySearchedText.setFormFilter( formFilter );
         return formFilterDisplaySearchedText;

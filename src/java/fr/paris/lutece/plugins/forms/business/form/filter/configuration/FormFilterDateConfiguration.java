@@ -48,13 +48,13 @@ public class FormFilterDateConfiguration extends AbstractFormFilterConfiguration
     {
         super( nPosition, strFormFilterLabel, strFormFilterName );
     }
-    
+
     @Override
     public IFormFilterQueryPart getIFormFilterQueryPart( )
     {
         return new FormFilterFormResponseDateLuceneQueryPart( );
     }
-    
+
     @Override
     public IFormFilterDisplay getIFormFilterDisplay( FormFilter formFilter )
     {

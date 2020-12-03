@@ -86,9 +86,10 @@ public interface IFormPanelConfiguration extends RBACResource
     {
         return getTechnicalCode( );
     }
-    
+
     /**
      * Get an {@link IFormPanelDisplay} associated with is IFormPanelConfiguration.
+     * 
      * @return
      */
     IFormPanelDisplay getIFormPanelDisplay( FormPanel formPanel );

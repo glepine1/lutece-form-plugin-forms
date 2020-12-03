@@ -108,7 +108,8 @@ public class CSVDataLine
         else
         {
             StringBuilder sbConcatReponseValues = new StringBuilder( );
-            sbConcatReponseValues.append( _mapDataToExport.get( question.getId( ) ) ).append( ITERATION_SEPARATOR ).append( CSVUtil.safeString( sbReponseValues.toString( ) ) );
+            sbConcatReponseValues.append( _mapDataToExport.get( question.getId( ) ) ).append( ITERATION_SEPARATOR )
+                    .append( CSVUtil.safeString( sbReponseValues.toString( ) ) );
             _mapDataToExport.replace( question.getId( ), sbConcatReponseValues.toString( ) );
         }
     }

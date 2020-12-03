@@ -55,7 +55,7 @@ public class FormFilterWorkflowConfiguration extends AbstractFormFilterConfigura
     {
         return new FormFilterWorkflowStateLuceneQueryPart( );
     }
-    
+
     @Override
     public IFormFilterDisplay getIFormFilterDisplay( FormFilter formFilter )
     {

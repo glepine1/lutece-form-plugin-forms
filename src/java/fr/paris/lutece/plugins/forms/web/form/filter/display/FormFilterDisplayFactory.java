@@ -72,7 +72,7 @@ public class FormFilterDisplayFactory
                     IFormFilterDisplay formFilterDisplay = formFilterConfiguration.getIFormFilterDisplay( formFilter );
                     formFilterDisplay.createFormParameters( request );
                     formFilterDisplay.setPosition( formFilterConfiguration.getPosition( ) );
-                    
+
                     listFormFilterDisplay.add( formFilterDisplay );
                 }
             }
