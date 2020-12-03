@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+    <?xml version="1.0" encoding="UTF-8"?>
 
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -312,7 +312,4 @@
 		<constructor-arg name="nFormColumnPosition" type="int" value="4"/>		
 		<constructor-arg name="strFormColumnTitle" type="java.lang.String" value="forms.column.state.title"/>
 	</bean>
-	 
-	<!-- Panels Display Factories -->
-	<bean id="forms.panelForms.panel.display.factory" class="fr.paris.lutece.plugins.forms.web.form.panel.display.factory.impl.FormPanelFormsDisplayFactory"/>
 </beans>
