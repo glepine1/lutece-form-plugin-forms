@@ -1,0 +1,1 @@
+ALTER TABLE forms_form ADD COLUMN id_logo INT DEFAULT NULL;

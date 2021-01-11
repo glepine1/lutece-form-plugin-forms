@@ -20,6 +20,7 @@ one_response_by_user SMALLINT default 0,
 breadcrumb_name varchar(255) default '' NOT NULL,
 display_summary SMALLINT default 0 NOT NULL,
 return_url varchar(255) default '',
+id_logo INT DEFAULT NULL,
 PRIMARY KEY (id_form)
 );
 

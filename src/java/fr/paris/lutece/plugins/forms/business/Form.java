@@ -102,6 +102,8 @@ public class Form implements AdminWorkgroupResource, RBACResource
     private boolean _bDisplaySummary;
     private int _nMaxNumberResponse;
     private boolean _bOneResponseByUser;
+    
+    private int _nIdLogo;
 
     /**
      * Returns the Id
@@ -473,5 +475,21 @@ public class Form implements AdminWorkgroupResource, RBACResource
     public void setOneResponseByUser( boolean bOneResponseByUser )
     {
         _bOneResponseByUser = bOneResponseByUser;
+    }
+
+    /**
+     * @return the nIdLogo
+     */
+    public int getIdLogo( )
+    {
+        return _nIdLogo;
+    }
+
+    /**
+     * @param nIdLogo the nIdLogo to set
+     */
+    public void setIdLogo( int nIdLogo )
+    {
+        _nIdLogo = nIdLogo;
     }
 }
