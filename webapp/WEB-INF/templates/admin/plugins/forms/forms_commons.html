@@ -356,6 +356,9 @@ $('#${id}').on('show.bs.modal', function (event) {
 	<@row> 
 		<@columns md=7> 
 			<@fieldSet legend='#i18n{forms.modify_form.labelDescription}'>
+				<@formGroup labelKey='#i18n{forms.modify_form.labelLogo}' helpKey='#i18n{forms.modify_form.labelLogo.help}'>
+					<@input type='file' name='logo' value='' />
+				</@formGroup>
 				<@formGroup labelKey='#i18n{forms.modify_form.labelTitle}' helpKey='#i18n{forms.modify_form.labelTitle.help}' mandatory=true rows=2>
 						<@input type='text' name='title' value='${form.title!}' />
 				</@formGroup>

@@ -39,6 +39,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.lang3.math.NumberUtils;
 
 import fr.paris.lutece.api.user.User;
@@ -50,8 +51,12 @@ import fr.paris.lutece.plugins.forms.business.FormMessage;
 import fr.paris.lutece.plugins.forms.business.FormMessageHome;
 import fr.paris.lutece.plugins.forms.service.FormService;
 import fr.paris.lutece.plugins.forms.service.FormsResourceIdService;
+import fr.paris.lutece.plugins.forms.service.upload.FormsAsynchronousUploadHandler;
 import fr.paris.lutece.plugins.forms.util.FormsConstants;
 import fr.paris.lutece.plugins.forms.web.breadcrumb.BreadcrumbManager;
+import fr.paris.lutece.portal.business.file.File;
+import fr.paris.lutece.portal.business.file.FileHome;
+import fr.paris.lutece.portal.business.physicalfile.PhysicalFile;
 import fr.paris.lutece.portal.business.rbac.RBAC;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
@@ -70,6 +75,7 @@ import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupService;
 import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
+import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
 import fr.paris.lutece.portal.web.util.LocalizedPaginator;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.html.AbstractPaginator;
@@ -112,6 +118,7 @@ public class FormJspBean extends AbstractJspBean
     private static final String MARK_PERMISSION_CREATE_FORMS = "permission_create_forms";
     private static final String MARK_WORKFLOW_REF_LIST = "workflow_list";
     private static final String MARK_WEBAPP_URL = "webapp_url";
+    private static final String MARK_UPLOAD_HANDLER = "uploadHandler";
 
     // Properties
     private static final String PROPERTY_ITEM_PER_PAGE = "forms.itemsPerPage";
@@ -242,6 +249,7 @@ public class FormJspBean extends AbstractJspBean
         model.put( MARK_FORM_MESSAGE, _formMessage );
         model.put( MARK_LOCALE, request.getLocale( ).getLanguage( ) );
         model.put( MARK_WEBAPP_URL, AppPathService.getBaseUrl( request ) );
+        model.put( MARK_UPLOAD_HANDLER, FormsAsynchronousUploadHandler.getHandler( ) );
 
         return getPage( PROPERTY_PAGE_TITLE_CREATE_FORM, TEMPLATE_CREATE_FORM, model );
     }
@@ -262,6 +270,24 @@ public class FormJspBean extends AbstractJspBean
         if ( !validateForm( _form ) || !validateBean( _formMessage, VALIDATION_ATTRIBUTES_PREFIX ) )
         {
             return redirectView( request, VIEW_CREATE_FORM );
+        }
+        
+        if ( request instanceof MultipartHttpServletRequest )
+        {
+            MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+            FileItem fileItem = multipartRequest.getFile( "logo" );
+            
+            PhysicalFile physicalFile = new PhysicalFile( );
+            physicalFile.setValue( fileItem.get( ) );
+            
+            File file = new File( );
+            file.setTitle( fileItem.getName( ) );
+            file.setMimeType( fileItem.getContentType( ) );
+            file.setSize( physicalFile.getValue( ).length );
+            file.setPhysicalFile( physicalFile );
+            
+            FileHome.create( file );
+            _form.setIdLogo( file.getIdFile( ) );
         }
 
         FormHome.create( _form );
