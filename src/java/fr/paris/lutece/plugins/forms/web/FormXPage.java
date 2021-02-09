@@ -70,6 +70,7 @@ import fr.paris.lutece.plugins.forms.service.EntryServiceManager;
 import fr.paris.lutece.plugins.forms.service.FormService;
 import fr.paris.lutece.plugins.forms.service.entrytype.EntryTypeAutomaticFileReading;
 import fr.paris.lutece.plugins.forms.service.upload.FormsAsynchronousUploadHandler;
+import fr.paris.lutece.plugins.forms.util.FormSecurityUtil;
 import fr.paris.lutece.plugins.forms.util.FormsConstants;
 import fr.paris.lutece.plugins.forms.validation.IValidator;
 import fr.paris.lutece.plugins.forms.web.breadcrumb.IBreadcrumb;
@@ -199,54 +200,13 @@ public class FormXPage extends MVCApplication
     {
         try
         {
-            checkMyLuteceAuthentification( form, request );
+            FormSecurityUtil.checkMyLuteceAuthentification( form, request );
         }
         catch( UserNotSignedException e )
         {
             init( form.getId( ) );
 
             throw new UserNotSignedException( );
-        }
-    }
-
-    /**
-     * check if authentification
-     * 
-     * @param form
-     *            Form
-     * @param request
-     *            HttpServletRequest
-     * @throws UserNotSignedException
-     *             exception if the form requires an authentification and the user is not logged
-     */
-    public void checkMyLuteceAuthentification( Form form, HttpServletRequest request ) throws UserNotSignedException
-    {
-        // Try to register the user in case of external authentication
-        if ( !SecurityService.isAuthenticationEnable( ) )
-        {
-            return;
-        }
-        if ( SecurityService.getInstance( ).isExternalAuthentication( ) )
-        {
-            // The authentication is external
-            // Should register the user if it's not already done
-            if ( SecurityService.getInstance( ).getRegisteredUser( request ) == null && SecurityService.getInstance( ).getRemoteUser( request ) == null
-                    && form.isAuthentificationNeeded( ) )
-            {
-                // Authentication is required to access to the portal
-                throw new UserNotSignedException( );
-            }
-        }
-        else
-        {
-            // If portal authentication is enabled and user is null and the requested URL
-            // is not the login URL, user cannot access to Portal
-            if ( ( form.isAuthentificationNeeded( ) ) && ( SecurityService.getInstance( ).getRegisteredUser( request ) == null )
-                    && !SecurityService.getInstance( ).isLoginUrl( request ) )
-            {
-                // Authentication is required to access to the portal
-                throw new UserNotSignedException( );
-            }
         }
     }
 
