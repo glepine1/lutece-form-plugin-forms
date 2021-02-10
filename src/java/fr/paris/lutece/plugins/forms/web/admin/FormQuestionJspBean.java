@@ -75,6 +75,7 @@ import fr.paris.lutece.plugins.genericattributes.business.Field;
 import fr.paris.lutece.plugins.genericattributes.business.FieldHome;
 import fr.paris.lutece.plugins.genericattributes.service.entrytype.EntryTypeServiceManager;
 import fr.paris.lutece.plugins.genericattributes.service.entrytype.IEntryTypeService;
+import fr.paris.lutece.portal.business.file.FileHome;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
@@ -142,6 +143,7 @@ public class FormQuestionJspBean extends AbstractJspBean
     private static final String ACTION_MOVE_COMPOSITE = "moveComposite";
     private static final String ACTION_REMOVE_COMPOSITE = "removeComposite";
     private static final String ACTION_DUPLICATE_QUESTION = "duplicateQuestion";
+    private static final String ACTION_REMOVE_FILE = "removeFileComment";
 
     // Markers
     private static final String MARK_WEBAPP_URL = "webapp_url";
@@ -1011,6 +1013,26 @@ public class FormQuestionJspBean extends AbstractJspBean
             addInfo( INFO_QUESTION_DUPLICATED, getLocale( ) );
         }
         return redirect( request, VIEW_MANAGE_QUESTIONS, FormsConstants.PARAMETER_ID_STEP, _step.getId( ) );
+    }
+    
+    @Action( value = ACTION_REMOVE_FILE )
+    public String doRemoveFileComment( HttpServletRequest request )
+    {
+        String idEntry = request.getParameter( FormsConstants.PARAMETER_ID_ENTRY );
+        int id = Integer.parseInt( idEntry );
+        
+        Entry entry = EntryHome.findByPrimaryKey( id );
+        Field oldFile = entry.getFieldByCode( IEntryTypeService.FIELD_DOWNLOADABLE_FILE );
+        if ( oldFile != null )
+        {
+            FileHome.remove( Integer.parseInt( oldFile.getValue( ) ) );
+            FieldHome.remove( oldFile.getIdField( ) );
+        }
+        
+        Map<String, String> additionalParameters = new HashMap<>( );
+        additionalParameters.put( FormsConstants.PARAMETER_ID_STEP, String.valueOf( _step.getId( ) ) );
+        additionalParameters.put( FormsConstants.PARAMETER_ID_QUESTION, String.valueOf( _question.getId( ) ) );
+        return redirect( request, VIEW_MODIFY_QUESTION, additionalParameters  );
     }
 
     /**
