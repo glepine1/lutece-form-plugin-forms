@@ -39,6 +39,8 @@ import java.util.stream.Collectors;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.transaction.annotation.Transactional;
 
 import fr.paris.lutece.api.user.User;
@@ -53,10 +55,14 @@ import fr.paris.lutece.plugins.forms.business.FormResponseHome;
 import fr.paris.lutece.plugins.forms.business.FormResponseStep;
 import fr.paris.lutece.plugins.forms.business.FormResponseStepHome;
 import fr.paris.lutece.plugins.forms.business.Question;
+import fr.paris.lutece.plugins.forms.business.QuestionHome;
 import fr.paris.lutece.plugins.forms.business.Step;
 import fr.paris.lutece.plugins.forms.business.StepHome;
+import fr.paris.lutece.plugins.forms.business.Transition;
+import fr.paris.lutece.plugins.forms.business.TransitionHome;
 import fr.paris.lutece.plugins.forms.service.workflow.IFormWorkflowService;
 import fr.paris.lutece.plugins.forms.util.FormsConstants;
+import fr.paris.lutece.plugins.forms.util.JsonUtils;
 import fr.paris.lutece.plugins.forms.web.CompositeGroupDisplay;
 import fr.paris.lutece.plugins.forms.web.CompositeQuestionDisplay;
 import fr.paris.lutece.plugins.forms.web.FormResponseManager;
@@ -514,5 +520,22 @@ public class FormService
                 fireFormResponseEventDelete( formResponse );
             }
         } ).start( );
+    }
+    
+    public JSONObject jsonExportForm( int idForm )
+    {
+        Form form = FormHome.findByPrimaryKey( idForm );
+        JSONObject formJson = JsonUtils.createFormJsonObject( form );
+        
+        List<Step> stepList = StepHome.getStepsListByForm( idForm );
+        JsonUtils.addFormStepsArray( formJson, stepList );
+        
+        List<Transition> transitionList = TransitionHome.getTransitionsListFromForm( idForm );
+        JsonUtils.addFormTransitionsArray( formJson, transitionList );
+        
+        List<Question> questionList = QuestionHome.getListQuestionByIdForm( idForm );
+        JsonUtils.addFormQuestionArray( formJson, questionList );
+        
+        return formJson;
     }
 }

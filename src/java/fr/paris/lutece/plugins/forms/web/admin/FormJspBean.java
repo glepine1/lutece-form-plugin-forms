@@ -40,6 +40,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.math.NumberUtils;
+import org.json.JSONObject;
 
 import fr.paris.lutece.api.user.User;
 import fr.paris.lutece.plugins.forms.business.Form;
@@ -51,6 +52,7 @@ import fr.paris.lutece.plugins.forms.business.FormMessageHome;
 import fr.paris.lutece.plugins.forms.service.FormService;
 import fr.paris.lutece.plugins.forms.service.FormsResourceIdService;
 import fr.paris.lutece.plugins.forms.util.FormsConstants;
+import fr.paris.lutece.plugins.forms.util.JsonUtils;
 import fr.paris.lutece.plugins.forms.web.breadcrumb.BreadcrumbManager;
 import fr.paris.lutece.portal.business.rbac.RBAC;
 import fr.paris.lutece.portal.business.user.AdminUser;
@@ -138,6 +140,7 @@ public class FormJspBean extends AbstractJspBean
     private static final String ACTION_MODIFY_FORM = "modifyForm";
     private static final String ACTION_REMOVE_FORM = "removeForm";
     private static final String ACTION_DUPLICATE_FORM = "duplicateForm";
+    private static final String ACTION_EXPORT_FORM = "doExportJson";
 
     // Infos
     private static final String INFO_FORM_CREATED = "forms.info.form.created";
@@ -590,6 +593,22 @@ public class FormJspBean extends AbstractJspBean
         }
         return bIsFormValid;
 
+    }
+    
+    @Action( ACTION_EXPORT_FORM )
+    public void doExportJson( HttpServletRequest request )
+    {
+        int nId = NumberUtils.toInt( request.getParameter( FormsConstants.PARAMETER_ID_FORM ), FormsConstants.DEFAULT_ID_VALUE );
+
+        if ( nId == FormsConstants.DEFAULT_ID_VALUE )
+        {
+            return;
+        }
+        
+        JSONObject jsonObject = _formService.jsonExportForm( nId );
+        String content = jsonObject.toString( 4 );
+        
+        download( content.getBytes( ), "export.json", JsonUtils.MIME_TYPE );
     }
 
 }
